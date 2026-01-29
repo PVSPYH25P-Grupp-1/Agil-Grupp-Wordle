@@ -11,7 +11,7 @@ def main():
     return ''
 
 
-@app.route('/game')
+@app.route('/wordle')
 def game():
     return ''
 
