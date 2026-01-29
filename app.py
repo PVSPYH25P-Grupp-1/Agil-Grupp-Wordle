@@ -9,6 +9,7 @@ app = Flask(__name__)
 def main():
     return ''
 
+
 @app.route('/game')
 def game():
     return ''
