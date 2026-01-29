@@ -9,5 +9,9 @@ app = Flask(__name__)
 def main():
     return ''
 
+@app.route('/game')
+def game():
+    return ''
+
 if __name__ == '__main__':
     app.run(debug=True)
