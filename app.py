@@ -1,15 +1,23 @@
-# add code later...
+import random
+from flask import Flask, json, render_template
 
-
-from flask import Flask, render_template
 
 app = Flask(__name__)
 
+with open("data/answer.json") as f:
+    words = json.load(f)["words"]
 
-@app.route('/')
+answer=random.choice(words)
+print("ANSWER:",answer)
+
+@app.route("/")
 def main():
-    return render_template('main/index.html')
-
+    answer = random.choice(words)
+    return render_template(
+        "index.html",
+        answer=answer,
+        words=words
+    )
 
 @app.route('/wordle')
 def game():
