@@ -1,5 +1,3 @@
-
-
 import random
 from flask import Flask, json, render_template
 
@@ -20,6 +18,10 @@ def main():
         answer=answer,
         words=words
     )
+
+@app.route('/wordle')
+def game():
+    return render_template('wordle/index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
