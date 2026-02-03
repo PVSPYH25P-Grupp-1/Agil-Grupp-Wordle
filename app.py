@@ -1,13 +1,25 @@
-# add code later...
 
 
-from flask import Flask
+import random
+from flask import Flask, json, render_template
+
 
 app = Flask(__name__)
 
-@app.route('/')
+with open("data/answer.json") as f:
+    words = json.load(f)["words"]
+
+answer=random.choice(words)
+print("ANSWER:",answer)
+
+@app.route("/")
 def main():
-    return ''
+    answer = random.choice(words)
+    return render_template(
+        "index.html",
+        answer=answer,
+        words=words
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

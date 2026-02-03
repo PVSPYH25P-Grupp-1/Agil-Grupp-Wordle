@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>word:{{answer}}</h3>
+    <h2>All answer words</h2>
+    <ul>
+      {% for w in words %}
+        <li>{{ w }}</li>
+      {% endfor %}
+</ul>
+</body>
+</html>
