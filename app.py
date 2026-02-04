@@ -14,13 +14,13 @@ print("ANSWER:",answer)
 def main():
     answer = random.choice(words)
     return render_template(
-        "wordle_guess.html",
+        "index.html",
         answer=answer,
         words=words
     )
 
 @app.route('/wordle')
-def game():
+def wordle():
     return render_template('wordle/wordle_guess.html')
 
 if __name__ == '__main__':
