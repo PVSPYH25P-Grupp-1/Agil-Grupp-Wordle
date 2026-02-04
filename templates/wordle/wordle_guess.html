@@ -1,5 +1,20 @@
-{% extends 'templates/layout.html' %}
+{% extends 'layout.html' %}
 
 {% block content %}
+{% from 'wordle/macros.html' import render_field %}
+    {% for guess in guesses %}
+        {{ guess }}
+    {% endfor %}
+    <form class="form-light" action="{{url_for('wordle', guesses=guesses)}}" method="POST">
+        {{ form.hidden_tag() }}
 
+        {{form.guess}}
+        {% if form.guess.errors %}
+            {% for error in form.guess.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+
+        {{form.submit()}}
+    </form>
 {% endblock %}
