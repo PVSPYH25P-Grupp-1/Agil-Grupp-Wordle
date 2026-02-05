@@ -1,20 +1,21 @@
-{% extends 'layout.html' %}
+{% extends 'wordle/layout.html' %}
 
 {% block content %}
-{% from 'wordle/macros.html' import render_field %}
-    {% for guess in guesses %}
-        {{ guess }}
+<div class="game-container">
+  {% for row_index in range(6) %}
+  <div class="row">
+    {% for cell_index in range(5) %}
+    <input type="text" maxlength="1" class="cell gray" />
     {% endfor %}
-    <form class="form-light" action="{{url_for('wordle', guesses=guesses)}}" method="POST">
-        {{ form.hidden_tag() }}
+  </div>
+  {% endfor %}
+</div>
 
-        {{form.guess}}
-        {% if form.guess.errors %}
-            {% for error in form.guess.errors %}
-                <span style="color: red;">{{error}}</span>
-            {% endfor %}
-        {% endif %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const firstCell = document.querySelector('.row .cell');
+    firstCell.focus();
+});
+</script>
 
-        {{form.submit()}}
-    </form>
 {% endblock %}
