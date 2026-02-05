@@ -1,5 +1,21 @@
 {% extends 'wordle/layout.html' %}
 
 {% block content %}
+<div class="game-container">
+  {% for row_index in range(6) %}
+  <div class="row">
+    {% for cell_index in range(5) %}
+    <input type="text" maxlength="1" class="cell gray" />
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const firstCell = document.querySelector('.row .cell'); 
+    firstCell.focus();
+});
+</script>
 
 {% endblock %}
