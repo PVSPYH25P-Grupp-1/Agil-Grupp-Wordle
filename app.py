@@ -30,11 +30,15 @@ def validate(currentWord, userGuess):
 
 @app.route("/")
 def main():
-    return render_template('wordle/wordle_guess.html', guesses=guesses)
+    return render_template(
+        "index.html",
+        answer=answer,
+        words=words
+    )
 
 @app.route('/wordle', methods=["GET", "POST"])
 def wordle():
-    pass
+    return render_template('wordle/wordle_guess.html', guesses=guesses)
 
 if __name__ == '__main__':
     app.run(debug=True)
