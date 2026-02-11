@@ -6,10 +6,10 @@ from flask import Flask, json, render_template
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'SECRET_KEY_NON_ENV_FIX_LATER'
 
-with open("data/answer.json") as f:
-    words = json.load(f)["words"]
+with open("data/allow_words.json") as f:
+    allow_words = set(json.load(f)["words"])
 
-answer=random.choice(words)
+answer=random.choice(list(allow_words))
 guesses=[]
 print("ANSWER:",answer)
 
@@ -30,15 +30,19 @@ def validate(currentWord, userGuess):
 
 @app.route("/")
 def main():
+
     return render_template(
         "index.html",
         answer=answer,
-        words=words
+        words=sorted(list(allow_words))
     )
+
+  
+
 
 @app.route('/wordle', methods=["GET", "POST"])
 def wordle():
-    return render_template('wordle/wordle_guess.html', guesses=guesses)
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True)
