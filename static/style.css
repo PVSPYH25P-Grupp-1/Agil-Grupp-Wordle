@@ -36,7 +36,15 @@ body {
     border-color: #818384;
     background-color: #1a1a1b;
 }
-
+.cell-green {
+    background-color: green;
+}
+.cell-yellow {
+    background-color: orange;
+}
+.cell-red {
+    background-color: red;
+}
 .container1 {
     display: flex;
     align-items: center; /* vertically center items */
