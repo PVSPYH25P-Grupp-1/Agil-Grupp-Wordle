@@ -10,11 +10,11 @@ def validate(currentWord, userGuess):
     count = 0
     for letter in guess:
         if letter == word[count]:
-            result.append('O')
+            result.append([letter, 'green'])
         elif letter in word:
-            result.append('?')
+            result.append([letter, 'yellow'])
         else:
-            result.append('x')
+            result.append([letter, 'red'])
         count += 1
     return result
 

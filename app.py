@@ -1,46 +1,30 @@
 import random
 from flask import Flask, json, render_template
 
-# from models.forms import WordleGuesses
+from models.forms import WordleGuesses
+from validation import validate
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'SECRET_KEY_NON_ENV_FIX_LATER'
 
-with open("data/allow_words.json") as f:
-    allow_words = set(json.load(f)["words"])
+with open("data/answer.json") as f:
+    words = json.load(f)["words"]
 
-answer=random.choice(list(allow_words))
+answer=random.choice(words)
 guesses=[]
 print("ANSWER:",answer)
 
-def validate(currentWord, userGuess):
-    result = []
-    word = list(currentWord.lower())
-    guess = list(userGuess.lower())
-    count = 0
-    for letter in guess:
-        if letter == word[count]:
-            result.append('O')
-        elif letter in word:
-            result.append('?')
-        else:
-            result.append('x')
-        count += 1
-    return result
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def main():
+    form = WordleGuesses()
+    print(guesses)
+    if form.guess.data is not None:
+        guesses.append(validate(answer,form.guess.data))
+        form.guess.data = None
+    return render_template('wordle/wordle_guess.html', form=form, guesses=guesses)
 
-    return render_template(
-        "index.html",
-        answer=answer,
-        words=sorted(list(allow_words))
-    )
-
-  
-
-
-@app.route('/wordle', methods=["GET", "POST"])
+@app.route('/wordle')
 def wordle():
     pass
 

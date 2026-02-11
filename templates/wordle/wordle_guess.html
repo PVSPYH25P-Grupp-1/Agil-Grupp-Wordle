@@ -2,13 +2,33 @@
 
 {% block content %}
 <div class="game-container">
-  {% for row_index in range(6) %}
+  {% for guess in guesses %}
   <div class="row">
-    {% for cell_index in range(5) %}
-    <input type="text" maxlength="1" class="cell gray" />
+  {% for guess_index in guess %}
+    {% if guess_index[1] == 'green' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-green" disabled/>
+    {% endif %}
+
+    {% if guess_index[1] == 'yellow' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-yellow" disabled/>
+    {% endif %}
+
+    {% if guess_index[1] == 'red' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-red" disabled/>
+    {% endif %}
     {% endfor %}
   </div>
   {% endfor %}
+   <form action="{{url_for('main')}}" method="POST">
+        {{form.guess}}
+        {% if form.guess.errors %}
+            {% for error in form.guess.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+        {{form.submit()}}
+
+     </form>
 </div>
 
 <script>
