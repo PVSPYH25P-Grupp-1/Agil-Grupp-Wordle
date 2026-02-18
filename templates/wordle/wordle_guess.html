@@ -21,7 +21,7 @@
   {% endfor %}
 
   <!-- active typing row to see keyboard result-->
-    {% if guess_amount < 6 %}
+    {% if guess_amount < 6 and not win %}
       <div id="activeRow" class="row">
           <input class="cell" disabled>
           <input class="cell" disabled>
@@ -42,6 +42,13 @@
         {{form.submit()}}
 
    </form>
+   {% endif %}
+   {% if win %}
+    <h1>You win!</h1>
+   {% endif %}
+   {% if guess_amount == 6 and not win %}
+    <h1>You Lose!</h1>
+   {% endif %}
      <!-- visual keyboard -->
       <div id="keyboard">
         <div class="kb-row">
