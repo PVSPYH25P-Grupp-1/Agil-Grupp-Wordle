@@ -50,3 +50,23 @@ body {
     align-items: center; /* vertically center items */
     gap: 20px;           /* space between items */
 }
+/* key board css */
+#keyboard { margin-top: 16px; user-select: none; }
+.kb-row { display: flex; justify-content: center; gap: 6px; margin: 6px 0; }
+.kb-key {
+    background: #d3d6da;;
+    height: 48px;
+    min-width: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    font-weight: 700;
+    cursor: pointer;
+}
+.kb-wide { min-width: 70px; }
+
+.kb-green { background: #538d4e; color: white; }
+.kb-yellow { background: #b59f3b; color: white; }
+.kb-red { background: #3a3a3c; color: white; }
+
+/* --------------------------------- */
