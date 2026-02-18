@@ -21,13 +21,15 @@
   {% endfor %}
 
   <!-- active typing row to see keyboard result-->
-  <div id="activeRow" class="row">
-      <input class="cell" disabled>
-      <input class="cell" disabled>
-      <input class="cell" disabled>
-      <input class="cell" disabled>
-      <input class="cell" disabled>
-  </div>
+    {% if guess_amount < 6 %}
+      <div id="activeRow" class="row">
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+      </div>
+
    <!--  -->
 
    <form action="{{url_for('main')}}" method="POST">
@@ -39,7 +41,7 @@
         {% endif %}
         {{form.submit()}}
 
-     </form>
+   </form>
      <!-- visual keyboard -->
       <div id="keyboard">
         <div class="kb-row">
