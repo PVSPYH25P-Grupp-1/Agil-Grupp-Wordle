@@ -18,13 +18,12 @@ print("ANSWER:",answer)
 @app.route("/", methods=["GET", "POST"])
 def main():
     form = WordleGuesses()
-
     if form.guess.data is not None and check_guess_validity(form.guess.data, words)[0] != False:
         guesses.append(validate(answer,form.guess.data))
         form.guess.data = None
     else:
         form.guess.data = "Invalid Word"
-    return render_template('wordle/wordle_guess.html', form=form, guesses=guesses)
+    return render_template('wordle/wordle_guess.html', form=form, guesses=guesses, guess_amount=len(guesses))
 
 @app.route('/wordle')
 def wordle():
