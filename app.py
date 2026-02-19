@@ -31,7 +31,7 @@ def main():
 
 @app.route('/wordle')
 def wordle():
-    pass
+    return render_template('main/index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
