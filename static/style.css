@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121213;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.game-container {
+    display: grid;
+    gap: 10px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    gap: 5px;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+    border: 2px solid #3a3a3c;
+    border-radius: 5px;
+    background-color: #121213;
+    color: #ffffff;
+}
+
+.cell:focus {
+    outline: none;
+    border-color: #818384;
+    background-color: #1a1a1b;
+}
+.cell-green {
+    background-color: green;
+}
+.cell-yellow {
+    background-color: orange;
+}
+.cell-red {
+    background-color: red;
+}
+.container1 {
+    display: flex;
+    align-items: center; /* vertically center items */
+    gap: 20px;           /* space between items */
+}
+/* key board css */
+#keyboard { margin-top: 16px; user-select: none; }
+.kb-row { display: flex; justify-content: center; gap: 6px; margin: 6px 0; }
+.kb-key {
+    background: #d3d6da;;
+    height: 48px;
+    min-width: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    font-weight: 700;
+    cursor: pointer;
+}
+.kb-wide { min-width: 70px; }
+
+.kb-green { background: #538d4e; color: white; }
+.kb-yellow { background: #b59f3b; color: white; }
+.kb-red { background: #3a3a3c; color: white; }
+
+/* --------------------------------- */

@@ -1,0 +1,230 @@
+{% extends 'wordle/layout.html' %}
+
+{% block content %}
+<div class="game-container">
+  {% for guess in guesses %}
+  <div class="row">
+  {% for guess_index in guess %}
+    {% if guess_index[1] == 'green' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-green" disabled/>
+    {% endif %}
+
+    {% if guess_index[1] == 'yellow' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-yellow" disabled/>
+    {% endif %}
+
+    {% if guess_index[1] == 'red' %}
+      <input type="text" maxlength="1" value={{guess_index[0]}} class="cell cell-red" disabled/>
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <!-- active typing row to see keyboard result-->
+    {% if guess_amount < 6 and not win %}
+      <div id="activeRow" class="row">
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+          <input class="cell" disabled>
+      </div>
+
+   <!--  -->
+
+   <form action="{{url_for('main')}}" method="POST">
+        {{form.guess}}
+        {% if form.guess.errors %}
+            {% for error in form.guess.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+        {{form.submit()}}
+
+   </form>
+   {% endif %}
+   {% if win %}
+    <h1>You win!</h1>
+   {% endif %}
+   {% if guess_amount == 6 and not win %}
+    <h1>You Lose!</h1>
+   {% endif %}
+     <!-- visual keyboard -->
+      <div id="keyboard">
+        <div class="kb-row">
+          {%for k in ['q','w','e','r','t','y','u','i','o','p']%}
+          <button type="button" class="kb-key" data-key="{{k}}">{{k|upper}}</button>
+          {%endfor%}
+        </div>
+
+        <div class="kb-row">
+          {%for k in ['a','s','d','f','g','h','j','k','l']%}
+          <button type="button" class="kb-key" data-key="{{k}}">{{k|upper}}</button>
+          {%endfor%}
+        </div>
+
+        <div class="kb-row">
+          <button type="button" class="kb-key kb-wide" data-key="backspace">Del</button>
+          {%for k in ['z','x','c','v','b','n','m']%}
+          <button type="button" class="kb-key" data-key="{{k}}">{{k|upper}}</button>
+          {%endfor%}
+          <button type="button" class="kb-key kb-wide" data-key="enter">Enter</button>
+        </div>
+      </div>
+</div>
+
+<!-- <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const firstCell = document.querySelector('.row .cell');
+    firstCell.focus();
+});
+</script> -->
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded',() =>{
+    console.log("Keyborad script loaded.");
+ 
+
+    const guessInput = 
+      document.querySelector('input[name="guess"]')||
+      document.querySelector('#guess');
+      
+     
+    if(!guessInput){
+      console.error(" Connot find guess input");
+      return;
+    }
+
+ const cells = document.querySelectorAll('#activeRow .cell');
+
+  function syncActiveRow(){
+    cells.forEach((c,i) => {
+      c.value = (guessInput.value[i] || "").toUpperCase();
+    });
+  }
+
+  function addLetter(letter){
+    if (guessInput.value.length<5){
+      guessInput.value += letter;
+      syncActiveRow();
+      guessInput.focus();
+    }
+  }
+
+  function delLetter(){
+    guessInput.value = guessInput.value.slice(0,-1);
+    syncActiveRow();
+    guessInput.focus();
+  }
+
+  function submitGuess(){
+    if(guessInput.value.length === 5){
+      guessInput.closest('form')?.requestSubmit();
+    }
+  }
+
+    guessInput.value="";
+    guessInput.focus(); 
+    syncActiveRow();
+
+  //update keyboard color
+  function update_KB_Colors(){
+    const priority = {green: 3, yellow: 2, red:1}; //keep status alfabet
+    const best = {}; //{a:'green', b:'yellow',...}
+
+    const colorCell = document.querySelectorAll(".cell-green, .cell-yellow, .cell-red");
+    console.log("colored cells:", colorCell.length);
+
+    //check every result cells except activeRow
+    colorCell.forEach(cell => {
+      const letter = (cell.value || "").trim().toLowerCase();
+      if(!letter) return;
+
+      let color = "red";
+      if(cell.classList.contains("cell-green")) color = "green";
+      else if(cell.classList.contains("cell-yellow"))color = "yellow";
+      else color = "red";
+
+      const prev = best[letter]; //choice hight priority color
+      if(!prev || priority[color]> priority[prev]) best[letter]=color; 
+    });
+
+    console.log("best:",best);
+
+  //put color on keyboard
+    Object.keys(best).forEach(letter =>{
+      const btn =document.querySelector(`#keyboard button[data-key="${letter}"]`);
+      if(!btn) {
+        console.log("no button for:", letter);
+        return;
+      }
+
+      btn.classList.remove("kb-green","kb-yellow","kb-red"); //remove previous color
+
+      //add new color
+      if (best[letter] === "green") btn.classList.add("kb-green");
+      else if(best[letter]==="yellow") btn.classList.add("kb-yellow");
+      else btn.classList.add("kb-red");
+
+    });
+  }
+
+    update_KB_Colors();
+
+    //press button on keyboard
+    document.querySelectorAll('#keyboard button').forEach(btn =>{
+      btn.addEventListener('click',()=>{
+        const key = btn.dataset.key || btn.textContent.trim().toLowerCase();
+      
+        console.log("Clicked",key);
+
+        //Enter
+        if(key === 'enter'){
+          guessInput.closest('form')?.requestSubmit(); //enter to submit form
+          return;
+        }
+        
+        //DELETE
+        if(key === 'del'|| key==='backspace'){
+          guessInput.value = guessInput.value.slice(0,-1);
+          syncActiveRow();
+          guessInput.focus();
+          return;
+        }
+        
+        //LETTER
+        if(/^[a-z]$/.test(key) && guessInput.value.length < 5){
+          guessInput.value += key;
+          syncActiveRow();
+          guessInput.focus();
+        }
+
+      });
+    });
+
+    document.addEventListener('keydown',(e) =>{
+      const key = e.key.toLowerCase();
+      if(key ==='enter'){
+        e.preventDefault();
+        submitGuess();
+        return;
+      }
+
+      if(key === 'backspace'){
+        e.preventDefault();
+        delLetter();
+        return;
+      }
+
+      if(/^[a-z]$/.test(key)){
+        e.preventDefault();
+        addLetter(key);
+      }
+    })
+  });
+  
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+    <h1>Play Wordle</h1>
+    <div class="container container1">
+        <img src="static/Regler.png" alt="Regler">
+        {% block content %}{% endblock %}
+        
+</p>
+    </div>
+
+</body>
+</html>
